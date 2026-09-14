@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101713">
+  <title>Still — Binaural Beats</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="audio.js"></script>
+  <script defer src="study.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="index.html"><span class="brand-icon" aria-hidden="true">≋</span> still<span class="brand-dot">.</span></a><span class="badge"><span></span> BINAURAL AUDIO</span></header>
+    <section class="intro"><p class="eyebrow">A LITTLE SPACE TO TUNE IN</p><h1>Two tones.<br><em>Your own rhythm.</em></h1><p>Pure, separate tones for each ear.<br>Choose a frequency, put on headphones, and settle in.</p></section>
+    <section class="player" aria-label="Binaural beat player">
+      <div class="player-heading"><span class="eyebrow">YOUR SESSION</span><span id="status" role="status">Ready when you are</span></div>
+      <div class="session-modes" role="group" aria-label="Session mode">
+        <button type="button" data-session="manual" aria-pressed="true">Manual</button>
+        <button type="button" data-session="study" aria-pressed="false">Study · 25/5</button>
+      </div>
+      <div id="study-progress" class="study-progress" hidden>
+        <div class="label-row"><span id="study-phase">25 minutes focus · 5 minutes break</span><strong id="study-timer">25:00</strong></div>
+        <progress id="phase-progress" value="0" max="1" aria-label="Current study phase progress"></progress>
+        <p id="study-hint"></p>
+      </div>
+      <div class="frequency-display"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="frequency"><span id="beat-value">40</span><span class="hz">Hz</span><span class="frequency-caption">FREQUENCY DIFFERENCE</span></div></div>
+      <div class="channels"><div><span class="ear">L</span><span>Left ear <strong id="left-frequency">200 Hz</strong></span></div><span class="channel-divider" aria-hidden="true">↔</span><div><span>Right ear <strong id="right-frequency">240 Hz</strong></span><span class="ear">R</span></div></div>
+      <fieldset id="manual-frequencies" class="modes"><legend>Choose your mode</legend><div class="mode-grid">
+        <button type="button" data-beat="2" aria-pressed="false"><span>Delta</span><strong>2 <small>Hz</small></strong></button>
+        <button type="button" data-beat="6" aria-pressed="false"><span>Theta</span><strong>6 <small>Hz</small></strong></button>
+        <button type="button" data-beat="10" aria-pressed="false"><span>Alpha</span><strong>10 <small>Hz</small></strong></button>
+        <button type="button" data-beat="20" aria-pressed="false"><span>Beta</span><strong>20 <small>Hz</small></strong></button>
+        <button type="button" data-beat="40" aria-pressed="true"><span>Gamma</span><strong>40 <small>Hz</small></strong></button>
+      </div></fieldset>
+      <div id="manual-slider" class="slider-control"><div class="label-row"><label for="beat">Fine-tune frequency</label><output id="custom-value" for="beat">40 Hz</output></div><input id="beat" type="range" min="1" max="40" step="0.5" value="40"><div class="range-labels"><span>1 Hz</span><span>40 Hz</span></div></div>
+      <div id="study-settings" hidden>
+        <p class="study-description">25 minutes at 40 Hz → 5-minute break at 10 Hz → back to focus. Gentle 30-second transitions are included in each break.</p>
+        <div class="timer-control"><label for="rounds">Study rounds</label><select id="rounds"><option value="1">1 round · 30 minutes</option><option value="2">2 rounds · 1 hour</option><option value="4" selected>4 rounds · 2 hours</option><option value="8">8 rounds · 4 hours</option></select></div>
+      </div>
+      <div class="settings">
+        <div class="volume-control"><div class="label-row"><label for="volume">Volume</label><output id="volume-value" for="volume">20%</output></div><input id="volume" type="range" min="0" max="100" value="20"></div>
+        <div class="timer-control"><label for="carrier">Tone pitch · left ear</label><select id="carrier"><option value="200">200 Hz · lower pitch</option><option value="320">320 Hz · study’s 340 Hz centre at 40 Hz</option><option value="400">400 Hz · higher pitch</option></select></div>
+        <div id="manual-settings" class="timer-control"><label for="duration">Session length</label><select id="duration"><option value="0">Until I stop</option><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="30">30 minutes</option><option value="60">60 minutes</option></select></div>
+      </div>
+      <button id="play" class="play" type="button">Start session</button>
+      <button id="pause" class="pause" type="button" hidden>Pause session</button>
+      <div class="session-footer"><span class="stereo-dot"></span><span>STEREO · SINE WAVES</span><span id="elapsed">00:00</span></div>
+      <p id="error" role="alert" hidden></p>
+    </section>
+    <section class="headphone-check"><div><h2>Headphones on. Channels separate.</h2><p>Check that each tone plays in only the named ear.</p></div><div class="test-buttons"><button id="test-left" type="button">Test left ear</button><button id="test-right" type="button">Test right ear</button></div></section>
+    <details><summary>How the sound and study mode work</summary><p>Study mode starts with a 400 Hz tone in your left ear and a 440 Hz tone in your right ear: a 40 Hz difference. During breaks, the right tone gradually falls to 410 Hz, then returns to 440 Hz before the next focus block. You can also choose the lower 200 Hz pitch or the study’s 320/360 Hz pair (340 Hz centre during 40 Hz focus). With the 320 Hz base, the break uses 320/330 Hz. Only the focus tone pair matches the study; the break schedule is this app’s own design.</p><p>Each round includes 25 minutes of focus and a 5-minute break. The first 30 seconds of the break fade from 40 to 10 Hz, the middle four minutes hold at 10 Hz, and the last 30 seconds return to 40 Hz. After your chosen rounds, audio stops. Take a longer break before starting another session. Pause session silences the audio and freezes the timer; Resume session continues from the same point. Stop ends the session; starting again begins round one.</p><p>The difference sets the beat rate; the carrier pitch can affect perception and the measured auditory response. 400/440 Hz is an option, not a proven study improvement over 200/240 Hz. The 10 Hz break is a lower-frequency preset, not a guarantee of calm or brain entrainment.</p><p>Use stereo headphones and turn off mono audio in your device’s accessibility settings. Spatial audio or other sound processing may change the channel separation. The ear checks help you confirm your setup. Starting an ear check ends the current session.</p><p>Keep your device awake for uninterrupted playback. The mode names describe frequency presets, not guaranteed effects. Start at a comfortable, low volume.</p></details>
+    <footer><span>Made for a quieter moment.</span><span>OFFLINE · NO ACCOUNTS · NO TRACKING</span></footer>
+  </main>
+</body>
+</html>
