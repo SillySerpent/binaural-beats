@@ -166,6 +166,7 @@
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) throw new Error('This browser does not support Web Audio. Open this app in Chrome, Safari, or Firefox.');
+      if (navigator.audioSession) navigator.audioSession.type = 'playback';
       if (!context || context.state === 'closed') {
         const audioContext = new AudioContextClass();
         context = audioContext;

@@ -67,6 +67,30 @@ test('invalid audio settings are rejected before creating a voice', async () => 
   await page.close();
 });
 
+test('starting a session requests mobile playback before creating the audio context', async () => {
+  const page = await browser.newPage();
+  await page.addInitScript(() => {
+    const audioSession = { type: 'auto' };
+    Object.defineProperty(navigator, 'audioSession', { configurable: true, value: audioSession });
+    const NativeContext = window.AudioContext;
+    window.AudioContext = class extends NativeContext {
+      constructor(...args) {
+        window.audioSessionTypeAtContextCreation = audioSession.type;
+        super(...args);
+      }
+    };
+  });
+  await page.goto(pathToFileURL(resolve('index.html')).href);
+  await page.getByRole('button', { name: 'Start session', exact: true }).click();
+  await page.getByRole('button', { name: 'Stop session', exact: true }).waitFor();
+  assert.deepEqual(await page.evaluate(() => ({
+    requested: navigator.audioSession.type,
+    atContextCreation: window.audioSessionTypeAtContextCreation,
+  })), { requested: 'playback', atContextCreation: 'playback' });
+  await page.getByRole('button', { name: 'Stop session', exact: true }).click();
+  await page.close();
+});
+
 test('study audio renders 400/440 Hz focus and 400/410 Hz breaks on the audio clock', async () => {
   const page = await browser.newPage();
   await page.addScriptTag({ path: resolve('study.js') });

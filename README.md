@@ -16,7 +16,9 @@ Double-click **index.html** to open the app in your browser. On macOS, you can a
 | Beta | 20 Hz | 200 Hz | 220 Hz |
 | Gamma | 40 Hz | 200 Hz | 240 Hz |
 
-In **Manual** mode, the custom slider covers **1–40 Hz in 0.5 Hz steps**. Frequency and volume can be adjusted during playback. Session lengths are continuous, 5, 10, 20, 30, or 60 minutes. The table above uses the default 200 Hz carrier; you can also select 320 Hz or 400 Hz before starting. Stop ends a session; starting again starts a new one. Keep the browser open and your device awake for uninterrupted playback.
+In **Manual** mode, the custom slider covers **1–40 Hz in 0.5 Hz steps**. Frequency and volume can be adjusted during playback. Session lengths are continuous, 5, 10, 20, 30, or 60 minutes. The table above uses the default 200 Hz carrier; you can also select 320 Hz or 400 Hz before starting. Stop ends a session; starting again starts a new one.
+
+On a phone, start the session while the page is open, then you can lock the screen and keep listening where the browser supports background audio. On supported iPhone browsers, the player requests the `playback` audio session so Web Audio can continue with the screen locked. Keep the browser tab open; closing the tab or quitting the browser ends the session. Browser or operating-system interruptions can still stop playback, so check the sound after locking your device.
 
 ## Study mode: automatic 25/5 rounds
 
@@ -36,7 +38,7 @@ The live display shows phase, round, time remaining, and the current left/right 
 
 Study audio plays continuously through focus, breaks, and frequency transitions. There are no automatic sound gaps or pre-break pauses. Use **Pause session** when you want to silence the sound and freeze the countdown.
 
-Study transitions and the final fade-out are scheduled upfront on Web Audio's clock. Delayed JavaScript timers in a background tab cannot shift the audio schedule; the UI catches up when it runs again. Device sleep, browser suspension, or an audio interruption may still interrupt playback; the app stops when an unexpected audio-context interruption is reported rather than claiming the session continued. A deliberate pause is handled separately and retains the session.
+Study transitions and the final fade-out are scheduled upfront on Web Audio's clock. Delayed JavaScript timers in a background tab cannot shift the audio schedule; the UI catches up when it runs again. Browser suspension or an audio interruption may still interrupt playback; the app stops when an unexpected audio-context interruption is reported rather than claiming the session continued. A deliberate pause is handled separately and retains the session.
 
 The **320 Hz · study’s 340 Hz centre at 40 Hz** pitch option plays **320 Hz left / 360 Hz right** during focus. This matches the 40 Hz tone pair centred at 340 Hz in [Melnichuk and colleagues (2025)](https://www.nature.com/articles/s41598-025-88517-z). During the 10 Hz break it uses **320/330 Hz**; the left tone remains fixed, so the centre changes. This option reproduces that focus tone pair, not the study’s full experimental protocol. The existing 400 Hz study default is unchanged.
 
